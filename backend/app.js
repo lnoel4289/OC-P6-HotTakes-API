@@ -1,8 +1,8 @@
 const express = require('express');
-
 const app = express();
-
 const mongoose = require('mongoose');
+
+const userRoutes = require('./routes/user');
 
 mongoose.connect('mongodb+srv://Lo:9KANtPSbWAtwtLY@cluster0.yktl05y.mongodb.net/?retryWrites=true&w=majority',
   { useNewUrlParser: true,
@@ -19,19 +19,6 @@ app.use((req, res, next) => {
     next();
   });
 
-
-app.post('/api/auth/signup', (req, res, next) => {
-    console.log(req.body);
-    res.status(201).json({
-      message: 'Votre compte a bien été créé !'
-    });
-  });
-
-app.get('/api/sauces', (req, res, next) => {
-    console.log(req.body);
-    res.status(200).json({
-      message: 'Votre compte a bien été créé !'
-    });
-  });
+app.use('/api/auth', userRoutes);
 
 module.exports = app;
