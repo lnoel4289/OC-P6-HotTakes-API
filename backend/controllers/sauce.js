@@ -1,4 +1,4 @@
-const Thing = require('../models/sauce');
+const Sauce = require('../models/Sauce');
 
 exports.getAllSauces = (req, res, next) => {
   Sauce.find().then(
@@ -42,6 +42,3 @@ exports.createSauce = (req, res, next) => {
       }
     );
   };
-
-
-

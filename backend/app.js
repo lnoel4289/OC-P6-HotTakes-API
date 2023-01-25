@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 
+const sauceRoutes = require('./routes/sauce');
 const userRoutes = require('./routes/user');
 
 mongoose.connect('mongodb+srv://Lo:9KANtPSbWAtwtLY@cluster0.yktl05y.mongodb.net/?retryWrites=true&w=majority',
@@ -19,6 +20,7 @@ app.use((req, res, next) => {
     next();
   });
 
+app.use('/api/sauces', sauceRoutes);
 app.use('/api/auth', userRoutes);
 
 module.exports = app;
