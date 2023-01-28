@@ -17,5 +17,4 @@ const storage = multer.diskStorage({
   }
 });
 
-// Orthographe différente dans le cours. Celle-ci semble la bonne.
 module.exports = multer({storage: storage}).single('image');
