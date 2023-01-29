@@ -104,34 +104,26 @@ exports.deleteSauce = (req, res, next) => {
 };
 
 
-
-
-// Fonction Like/Dislike
 exports.likeSauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
   .then(sauce => {
-
+    if (sauce.usersDisliked.find(id => id == req.body.userId)) {
+    sauce.dislikes-- ;
+    sauce.usersDisliked.filter(id => id != req.body.userId);
+    } else if (sauce.usersLiked.find(id => id == req.body.userId)) {
+    sauce.likes-- ;
+    sauce.usersLiked.filter(id => id != req.body.userId);
+    };
+    if (req.body.like == 1) {
+      sauce.likes++ ;
+      sauce.usersLiked.push(req.body.userId);
+    } else if (req.body.like == -1){
+      sauce.dislikes++ ;
+      sauce.usersDisliked.push(req.body.userId);
+    };
+    console.log(sauce); //monitoring
+    
   })
-};
-
-const cancelVote = (sauce, req) => {
-  if (sauce.usersDisliked.find(req.body.userId) == true) {
-    sauce.dislike--;
-    sauce.usersDisliked.delete(req.body.userId);
-  } else if (sauce.usersLiked.find(req.body.userId) == true) {
-    sauce.like--;
-    sauce.usersLiked.delete(req.body.userId);
-  };
-};
-
-const vote = (sauce, req) => {
-  if (req.body.like === 1) {
-    sauce.like++;
-    sauce.usersLiked.push(userId);
-  } else if (req.body.like === -1){
-    sauce.dislike++;
-    sauce.usersDisliked.push(userId);
-  } else if (req.body.like === 0) {
-    cancelVote();
-  };
+  .then(() => res.status(200).json({ message: 'Vote accepté !'}))
+  .catch(error => res.status(400).json({ error }));
 };
