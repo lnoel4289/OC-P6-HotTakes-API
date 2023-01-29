@@ -102,3 +102,36 @@ exports.deleteSauce = (req, res, next) => {
   })
   .catch(error => res.status(500).json({ error }));
 };
+
+
+
+
+// Fonction Like/Dislike
+exports.likeSauce = (req, res, next) => {
+  Sauce.findOne({ _id: req.params.id })
+  .then(sauce => {
+
+  })
+};
+
+const cancelVote = (sauce, req) => {
+  if (sauce.usersDisliked.find(req.body.userId) == true) {
+    sauce.dislike--;
+    sauce.usersDisliked.delete(req.body.userId);
+  } else if (sauce.usersLiked.find(req.body.userId) == true) {
+    sauce.like--;
+    sauce.usersLiked.delete(req.body.userId);
+  };
+};
+
+const vote = (sauce, req) => {
+  if (req.body.like === 1) {
+    sauce.like++;
+    sauce.usersLiked.push(userId);
+  } else if (req.body.like === -1){
+    sauce.dislike++;
+    sauce.usersDisliked.push(userId);
+  } else if (req.body.like === 0) {
+    cancelVote();
+  };
+};
