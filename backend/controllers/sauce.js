@@ -122,7 +122,7 @@ exports.likeSauce = (req, res, next) => {
       sauce.usersDisliked.push(req.body.userId);
     };
     console.log(sauce); //monitoring
-    // Sauce.updateOne({...sauce})
+    // Sauce.updateOne({ _id: req.params.id }, {...sauce})
   })
   .then(() => res.status(200).json({ message: 'Vote accepté !'}))
   .catch(error => res.status(400).json({ error }));
