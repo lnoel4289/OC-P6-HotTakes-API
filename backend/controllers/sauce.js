@@ -111,23 +111,27 @@ exports.deleteSauce = (req, res, next) => {
 exports.likeSauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
   .then(sauce => {
-    if (sauce.usersDisliked.find(id => id == req.body.userId)) {
-    sauce.dislikes-- ;
+    if (sauce.usersDisliked.find(id => id === req.body.userId)) {
+    sauce.dislikes -= 1;
     sauce.usersDisliked.filter(id => id != req.body.userId);
-    } else if (sauce.usersLiked.find(id => id == req.body.userId)) {
-    sauce.likes-- ;
+    } else if (sauce.usersLiked.find(id => id === req.body.userId)) {
+    sauce.likes -= 1;
     sauce.usersLiked.filter(id => id != req.body.userId);
     };
-    if (req.body.like == 1) {
-      sauce.likes++ ;
+    if (req.body.like === 1) {
+      sauce.likes += 1;
       sauce.usersLiked.push(req.body.userId);
-    } else if (req.body.like == -1){
-      sauce.dislikes++ ;
+    } else if (req.body.like === -1){
+      sauce.dislikes += 1;
       sauce.usersDisliked.push(req.body.userId);
     };
-    console.log(sauce); //monitoring
-    // Sauce.updateOne({ _id: req.params.id }, {...sauce})
+
+    const sauceObject = {...sauce};
+    delete sauceObject.userId;
+    console.log(sauceObject)
+    Sauce.updateOne({ _id: req.params.id }, { sauceObject })
+    .then(() => res.status(200).json({ message: 'Vote accepté !'}))
+    .catch(error => res.status(400).json({ error }));
   })
-  .then(() => res.status(200).json({ message: 'Vote accepté !'}))
   .catch(error => res.status(400).json({ error }));
 };
