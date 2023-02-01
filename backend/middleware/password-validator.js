@@ -3,11 +3,23 @@ const passwordValidator = require('password-validator');
 const passwordSchema = new passwordValidator();
 
 passwordSchema
-.is().min(8)
+.is().min(4)
 .is().max(100)
-.has().uppercase()
+// .has().uppercase()
 .has().lowercase()
-.has().digits()
-.has().symbols();
+// .has().digits()
+// .has().symbols();
 
-const passwordValidation = passwordSchema.validate('', {details:true});
+module.exports = (req, res, next) => {
+    try {
+        const password = req.body.password;
+        const passwordValidation = passwordSchema.validate(password);
+        if(passwordValidation === true) {
+            next();
+        } else {
+            throw new Error('Password must consist of at least 8 characters comprising at least one of these: uppercase, lowercase, digit, symbol.');
+        }
+    } catch(error) {
+        res.status(401).json({ error });
+    };
+};
