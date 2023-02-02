@@ -111,25 +111,33 @@ exports.deleteSauce = (req, res, next) => {
 exports.likeSauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
   .then(sauce => {
+    let like = sauce.likes;
+    let dislike = sauce.dislikes;
+    let userLiked = sauce.usersLiked;
+    let userDisliked = sauce.usersDisliked;
+
     if (sauce.usersDisliked.find(id => id === req.body.userId)) {
-    sauce.dislikes -= 1;
-    sauce.usersDisliked.filter(id => id != req.body.userId);
+    dislike -= 1;
+    userDisliked = sauce.usersDisliked.filter(id => id != req.body.userId);
     } else if (sauce.usersLiked.find(id => id === req.body.userId)) {
-    sauce.likes -= 1;
-    sauce.usersLiked.filter(id => id != req.body.userId);
+    like -= 1;
+    userLiked = sauce.usersLiked.filter(id => id != req.body.userId);
     };
     if (req.body.like === 1) {
-      sauce.likes += 1;
-      sauce.usersLiked.push(req.body.userId);
+      like += 1;
+      userLiked.push(req.body.userId);
     } else if (req.body.like === -1){
-      sauce.dislikes += 1;
-      sauce.usersDisliked.push(req.body.userId);
+      dislike += 1;
+      userDisliked.push(req.body.userId);
     };
 
-    const sauceObject = {...sauce};
-    delete sauceObject.userId;
-    console.log(sauceObject)
-    Sauce.updateOne({ _id: req.params.id }, { sauceObject })
+    Sauce.updateOne({ _id: req.params.id }, 
+      {
+        likes: like,
+        dislikes: dislike,
+        usersLiked: userLiked,
+        usersDisliked: userDisliked
+      })
     .then(() => res.status(200).json({ message: 'Vote accepté !'}))
     .catch(error => res.status(400).json({ error }));
   })
