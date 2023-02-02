@@ -11,7 +11,6 @@ module.exports = (req, res, next) => {
         const email = req.body.email;
         const emailValidation = emailSchema.validate(email);
         if(emailValidation === true) {
-            console.log(emailValidation);
             next();
         } else {
             throw new Error('Should be a valid email adress !');
