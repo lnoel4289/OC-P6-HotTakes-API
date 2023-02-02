@@ -5,10 +5,10 @@ const passwordSchema = new passwordValidator();
 passwordSchema
 .is().min(4)
 .is().max(100)
-// .has().uppercase()
+.has().uppercase()
 .has().lowercase()
-// .has().digits()
-// .has().symbols();
+.has().digits()
+.has().symbols();
 
 module.exports = (req, res, next) => {
     try {

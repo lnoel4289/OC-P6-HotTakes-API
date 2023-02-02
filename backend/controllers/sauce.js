@@ -116,12 +116,12 @@ exports.likeSauce = (req, res, next) => {
     let userLiked = sauce.usersLiked;
     let userDisliked = sauce.usersDisliked;
 
-    if (sauce.usersDisliked.find(id => id === req.body.userId)) {
+    if (userDisliked.find(id => id === req.body.userId)) {
     dislike -= 1;
-    userDisliked = sauce.usersDisliked.filter(id => id != req.body.userId);
-    } else if (sauce.usersLiked.find(id => id === req.body.userId)) {
+    userDisliked = userDisliked.filter(id => id != req.body.userId);
+    } else if (userLiked.find(id => id === req.body.userId)) {
     like -= 1;
-    userLiked = sauce.usersLiked.filter(id => id != req.body.userId);
+    userLiked = userLiked.filter(id => id != req.body.userId);
     };
     if (req.body.like === 1) {
       like += 1;
