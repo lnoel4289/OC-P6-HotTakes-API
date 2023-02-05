@@ -9,9 +9,7 @@ exports.getAllSauces = (req, res, next) => {
     }
   ).catch(
     (error) => {
-      res.status(400).json({
-        error: error
-      });
+      res.status(500).json({ error });
     }
   );
 };
@@ -21,14 +19,15 @@ exports.getOneSauce = (req, res, next) => {
   Sauce.findOne({
     _id: req.params.id
   }).then(
-    (sauce) => {
+    sauce => {
+      if(!sauce) {
+        res.status(404).json();
+      }
       res.status(200).json(sauce);
     }
   ).catch(
     (error) => {
-      res.status(404).json({
-        error: error
-      });
+      res.status(500).json({ error });
     }
   );
 };
@@ -55,9 +54,7 @@ exports.createSauce = (req, res, next) => {
     }
   ).catch(
     (error) => {
-      res.status(400).json({
-        error: error
-      });
+      res.status(500).json({ error });
     }
   );
 };
@@ -73,7 +70,7 @@ exports.modifySauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
     .then(sauce => {
       if (sauce.userId != req.auth.userId) {
-        res.status(401).json({ message: 'Non-autorisé !' });
+        res.status(403).json({ message: 'Non-autorisé !' });
       } else {
         if(req.file) {
           const filename = sauce.imageUrl.split('/images')[1];
@@ -87,7 +84,7 @@ exports.modifySauce = (req, res, next) => {
       };
     })
     .catch(error => {
-      res.status(400).json({ error });
+      res.status(500).json({ error });
     });
 };
 
@@ -143,5 +140,5 @@ exports.likeSauce = (req, res, next) => {
     .then(() => res.status(200).json({ message: 'Vote accepté !'}))
     .catch(error => res.status(400).json({ error }));
   })
-  .catch(error => res.status(400).json({ error }));
+  .catch(error => res.status(500).json({ error }));
 };
