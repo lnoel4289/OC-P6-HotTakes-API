@@ -75,21 +75,20 @@ exports.modifySauce = (req, res, next) => {
         Sauce.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
         .then(() => {
           res.status(200).json({ message: 'Sauce modifiée !' })})
+        .catch(error => res.status(500).json({ error }))
         .then(() => {
           if(req.file) {
             const filename = sauce.imageUrl.split('/images')[1];
             fs.unlink(`images/${filename}`, error => {
-              if(error) {console.log(error)}
-            })
-          }
+              if(error) { console.log(error) }})
+            }
         })
-        .catch(error => res.status(400).json({ error }));
-      };
+      }
     })
     .catch(error => {
       res.status(500).json({ error });
     });
-};
+  };
 
 
 exports.deleteSauce = (req, res, next) => {
@@ -113,6 +112,12 @@ exports.deleteSauce = (req, res, next) => {
 exports.likeSauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
   .then(sauce => {
+    // let sauceObject = sauce;
+    // delete sauceObject.likes;
+    // delete sauceObject.dislikes;
+    // delete sauceObject.usersLiked;
+    // delete sauceObject.usersDisliked;
+    // console.log(sauceObject);
     let like = sauce.likes;
     let dislike = sauce.dislikes;
     let userLiked = sauce.usersLiked;
@@ -141,7 +146,7 @@ exports.likeSauce = (req, res, next) => {
         usersDisliked: userDisliked
       })
     .then(() => res.status(200).json({ message: 'Vote accepté !'}))
-    .catch(error => res.status(400).json({ error }));
+    .catch(error => res.status(500).json({ error }));
   })
-  .catch(error => res.status(500).json({ error }));
-};
+  .catch(error => res.status(500).json({ error }))
+}
