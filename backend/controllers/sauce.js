@@ -2,7 +2,7 @@ const Sauce = require('../models/Sauce');
 const fs = require ('fs');
 
 
-exports.getAllSauces = (req, res, next) => {
+exports.getAllSauces = (req, res) => {
   Sauce.find().then(
     (sauces) => {
       res.status(200).json(sauces);
@@ -15,7 +15,7 @@ exports.getAllSauces = (req, res, next) => {
 };
 
 
-exports.getOneSauce = (req, res, next) => {
+exports.getOneSauce = (req, res) => {
   Sauce.findOne({
     _id: req.params.id
   }).then(
@@ -33,7 +33,7 @@ exports.getOneSauce = (req, res, next) => {
 };
 
 
-exports.createSauce = (req, res, next) => {
+exports.createSauce = (req, res) => {
   const sauceObject = JSON.parse(req.body.sauce);
   delete sauceObject._id;
   delete sauceObject._userId;
@@ -60,7 +60,7 @@ exports.createSauce = (req, res, next) => {
 };
 
 
-exports.modifySauce = (req, res, next) => {
+exports.modifySauce = (req, res) => {
   const sauceObject = req.file ? {
     ...JSON.parse(req.body.sauce),
     imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
@@ -91,7 +91,7 @@ exports.modifySauce = (req, res, next) => {
   };
 
 
-exports.deleteSauce = (req, res, next) => {
+exports.deleteSauce = (req, res) => {
   Sauce.findOne({ _id: req.params.id })
   .then(sauce => {
     if(sauce.userId != req.auth.userId) {
@@ -109,15 +109,9 @@ exports.deleteSauce = (req, res, next) => {
 };
 
 
-exports.likeSauce = (req, res, next) => {
+exports.likeSauce = (req, res) => {
   Sauce.findOne({ _id: req.params.id })
   .then(sauce => {
-    // let sauceObject = sauce;
-    // delete sauceObject.likes;
-    // delete sauceObject.dislikes;
-    // delete sauceObject.usersLiked;
-    // delete sauceObject.usersDisliked;
-    // console.log(sauceObject);
     let like = sauce.likes;
     let dislike = sauce.dislikes;
     let userLiked = sauce.usersLiked;
