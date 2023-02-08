@@ -1,3 +1,4 @@
+const dbConnect = require('./config/dbConnect');
 const dotenv = require('dotenv'); // Module permettant de générer nos propres variables d'environnement via `.env`.
 const express = require('express');
 const app = express();
@@ -7,6 +8,7 @@ const sauceRoutes = require('./routes/sauce');
 const userRoutes = require('./routes/user');
 
 dotenv.config();
+dbConnect(); // Connexion à la base de données.
 
 //MIDDLEWARE GENERAUX---------------
 

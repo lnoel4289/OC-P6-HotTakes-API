@@ -1,6 +1,5 @@
 const http = require('http');
 const app = require('./app');
-const dbConnect = require('./config/dbConnect');
 
 // Renvoie la valeur du port ou le boléen false.
 const normalizePort = val => {
@@ -47,6 +46,3 @@ server.on('listening', () => {
 });
 
 server.listen(port);
-
-// Connexion à la base de données.
-dbConnect();
