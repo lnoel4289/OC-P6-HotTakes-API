@@ -13,4 +13,4 @@ The server will not function until all dependencies are installed. To install th
 
 ## Github
 
-This code is available at (https://github.com/lnoel4289/OC-P6-HotTakes-API) in the `/backend`  directory.
+This code is available at (https://github.com/lnoel4289/OC-P6-HotTakes-API) in the `/backend`  directory minus files listed in the `.gitignore`.
