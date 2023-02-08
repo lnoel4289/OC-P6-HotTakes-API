@@ -2,6 +2,7 @@ const http = require('http');
 const app = require('./app');
 const dbConnect = require('./config/dbConnect');
 
+// Renvoie la valeur du port ou le boléen false.
 const normalizePort = val => {
   const port = parseInt(val, 10);
 
@@ -16,6 +17,7 @@ const normalizePort = val => {
 const port = normalizePort(process.env.PORT || 3000);
 app.set('port', port);
 
+// Log les messages d'exceptions lors du démarrage serveur
 const errorHandler = error => {
   if (error.syscall !== 'listen') {
     throw error;
@@ -34,8 +36,9 @@ const errorHandler = error => {
   }
 };
 
-const server = http.createServer(app);
+const server = http.createServer(app); // Les requests/responses seront traitée dans app.js.
 
+// Démarrage du serveur.
 server.on('error', errorHandler);
 server.on('listening', () => {
   const address = server.address();
@@ -44,4 +47,6 @@ server.on('listening', () => {
 });
 
 server.listen(port);
+
+// Connexion à la base de données.
 dbConnect();
