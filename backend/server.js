@@ -37,7 +37,6 @@ const errorHandler = error => {
 
 const server = http.createServer(app); // Les requests/responses seront traitée dans app.js.
 
-// Démarrage du serveur.
 server.on('error', errorHandler);
 server.on('listening', () => {
   const address = server.address();

@@ -12,7 +12,7 @@ dbConnect(); // Connexion à la base de données.
 
 //MIDDLEWARE GENERAUX---------------
 
-app.use(express.json());
+app.use(express.json()); // Middleware parsant la requête en objet JS
 
 app.use((req, res, next) => { // Définition des autorisations CORS
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -23,7 +23,7 @@ app.use((req, res, next) => { // Définition des autorisations CORS
   
 app.use('/api/sauces', sauceRoutes);
 app.use('/api/auth', userRoutes);
-app.use('/images', express.static(path.join(__dirname, 'images'))); // Génère l'URL pour le stockage du fichier joint par l'utilisateur.
+app.use('/images', express.static(path.join(__dirname, 'images'))); // Génère l'URL de destination pour le stockage du fichier joint par l'utilisateur.
 
 // ---------------------------------
 

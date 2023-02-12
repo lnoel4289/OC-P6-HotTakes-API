@@ -20,6 +20,6 @@ module.exports = (req, res, next) => {
             throw new Error('Password must consist of at least 8 characters comprising at least one of these: uppercase, lowercase, digit, symbol.');
         }
     } catch(error) {
-        res.status(401).json({ error });
+        res.status(403).json({ error });
     };
 };

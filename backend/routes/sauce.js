@@ -1,5 +1,5 @@
 const express = require('express');
-const auth = require('../middleware/auth');
+const auth = require('../middleware/auth'); // Middleware d'authentification si l'user s'est identifié
 const router = express.Router(); // L'objet renvoyé par la méthode express.Router() intercepte les requêtes
 const multer = require('../middleware/multer-config');
 
