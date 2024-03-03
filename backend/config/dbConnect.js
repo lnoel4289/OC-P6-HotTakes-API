@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
-const dbConnect = () => mongoose.connect(`mongodb+srv://${process.env.MONGO_DB_USER}:${process.env.MONGO_DB_USER_MDP}${process.env.MONGO_DB_MARK}`,
+const dbConnect = () => mongoose.connect(process.env.URI,
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
-  .catch(() => console.log('Connexion à MongoDB échouée !'));
+  .catch((err) => console.log(`Connexion à MongoDB échouée ! ${err}`));
 
   module.exports = dbConnect
