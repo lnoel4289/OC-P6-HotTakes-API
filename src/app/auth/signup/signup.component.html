@@ -5,8 +5,9 @@
     <input type="email" class="form-control" id="email" formControlName="email">
   </div>
   <div class="form-group">
-    <label for="password">Password</label>
-    <input type="password" class="form-control" id="password" formControlName="password">
+    <label for="password">Password <br />
+      Au moins 8 caractères avec au moins une majuscule, une minuscule et un caractère spécial</label>
+    <input type="password" class="form-control" id="password" formControlName="password" title="ggggg">
   </div>
   <button mat-raised-button color="primary" [disabled]="signupForm.invalid" (click)="onSignup()">SIGN UP</button>
   <p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>
